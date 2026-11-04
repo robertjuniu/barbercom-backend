@@ -6,6 +6,8 @@ Instale o Docker Desktop e deixe o motor de containers Linux em execução. No W
 
 Na pasta que contém `docker-compose.yml`:
 
+O código público está em https://github.com/robertjuniu/barbercom-backend. Baixe o ZIP do GitHub e extraia ou use `git clone https://github.com/robertjuniu/barbercom-backend.git` e entre na pasta criada.
+
 ```sh
 docker compose up --build -d
 docker compose ps
@@ -149,3 +151,5 @@ docker compose exec backend node --test --test-concurrency=1 test/*.test.js
 Os testes criam schemas temporários no banco do projeto e removem somente esses schemas. Há um teste do seed que verifica repetição, preservação de senha, rollback e agendamento usando os exemplos. Confira também os dois logins no navegador, uma reserva, cancelamento e edição de um cadastro.
 
 Antes da apresentação, execute o build no notebook, confirme `docker compose ps` com os dois serviços saudáveis e teste após parar e iniciar. Com as imagens já baixadas, use `docker compose up -d --no-build --pull never` para iniciar sem baixar/buildar novamente. O login Google continua dependendo de internet. Este Compose é para desenvolvimento e apresentação local.
+
+Os testes locais de Docker, login e reinício estão registrados em [docs/validacao-docker.md](docs/validacao-docker.md).

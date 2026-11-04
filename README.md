@@ -16,6 +16,8 @@ Abra http://127.0.0.1:3000/login. Banco, tabelas, contas e exemplos são prepara
 
 Veja [INTEGRACAO.md](INTEGRACAO.md) para portas, rotas, sessão/CSRF, seed, configuração Google, testes e instruções de apresentação. O frontend definitivo deve seguir o Figma. Google é opcional e exige credenciais próprias.
 
+Docker validado em 04/11/2026: dois serviços saudáveis, seis testes aprovados dentro do container e sessão/dados preservados após reinício. Veja [registro da validação](docs/validacao-docker.md).
+
 ### Sem Docker (Windows)
 
 ```powershell

@@ -1,0 +1,24 @@
+{
+  "name": "barbercom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "configurar": "node scripts/configurar-local.js",
+    "start": "node --env-file=.env src/server.js",
+    "preparar": "node --env-file=.env scripts/preparar-aplicacao.js",
+    "test": "node --env-file=.env --test --test-concurrency=1 test/*.test.js"
+  },
+  "dependencies": {
+    "ejs": "7.0.2",
+    "express": "5.3.0",
+    "express-rate-limit": "8.7.1",
+    "express-session": "1.19.0",
+    "google-auth-library": "11.3.1",
+    "pg": "8.23.1",
+    "sharp": "0.35.5"
+  }
+}

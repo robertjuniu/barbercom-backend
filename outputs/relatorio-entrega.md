@@ -1,5 +1,11 @@
 # Relatório de entrega BarberCom
 
+## Ambiente Docker, 04/11/2026
+
+Incluídos `docker-compose.yml`, Dockerfile, seed automático e `INTEGRACAO.md` na raiz. A execução foi validada em Docker Desktop com banco vazio, seis testes dentro do container, dois logins pela porta 3000 e reinício preservando a sessão e os cadastros. O banco usa conta própria sem superusuário e não publica porta externa. Google inicia desabilitado e o atalho de qualquer senha fica desligado. A configuração antiga do Windows não foi copiada. Evidências e limites em `docs/validacao-docker.md`. Código público: https://github.com/robertjuniu/barbercom-backend.
+
+O texto abaixo registra as verificações anteriores. Onde indicar cinco testes, a rodada Docker atual passou em seis. A integração visual com o frontend final e o teste em celular físico continuam pendentes.
+
 Atualizado em 28/10/2026. API Node.js/Express/PostgreSQL e demonstração EJS. Este relatório substitui avaliações anteriores restritas às quatro telas administrativas.
 
 | Requisito | Implementação e evidência | Situação |
