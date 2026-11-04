@@ -150,12 +150,12 @@ Máximo de 2 MB e 16 milhões de pixels. O servidor decodifica JPEG/PNG, rejeita
 - POST `/api/cadastro`: `{ nome, telefone, senha }`. Telefone nacional com DDD, somente 10 ou 11 dígitos. Senha de 12 a 256 caracteres.
 - Retorna 201 e cria somente perfil CLIENTE ativo. Não inicia sessão; faça login depois. `perfil`, `ativo` e `google_sub` enviados pelo navegador são ignorados.
 - Retorna 400 para dados inválidos e 409 para telefone já cadastrado. Duplicatas são impedidas pelo banco.
-- SMS e `/api/cadastro/confirmar` foram retirados por decisão do responsável. O telefone não tem posse verificada; não descreva esse cadastro como verificação de identidade.
+- Retirei o SMS e a rota `/api/cadastro/confirmar`. O telefone não tem posse verificada; não descreva esse cadastro como verificação de identidade.
 - A demonstração oferece GET/POST `/cadastro` e uma área mínima `/cliente/agendamentos`. Ela não substitui as telas do frontend da equipe.
 
 ### Gestor de apresentação
 
-O `.env.example` traz `DEMO_GESTOR=false`. Na instalação local, o responsável pediu `true`. Quando habilitado, POST `/api/login` com `{ telefone: '123', senha: '123', acesso: 'gestor-demo' }` abre a primeira conta GESTOR ativa, sem criar usuários e sem trocar o perfil de clientes. Telefone e senha devem estar preenchidos. Sem esse parâmetro, vale o login normal com senha; clientes também podem usar Google. `GET /api/login` informa `demoGestor`.
+O `.env.example` traz `DEMO_GESTOR=false`. No meu ambiente Windows, usei `true` para a demonstração. Quando habilitado, POST `/api/login` com `{ telefone: '123', senha: '123', acesso: 'gestor-demo' }` abre a primeira conta GESTOR ativa, sem criar usuários e sem trocar o perfil de clientes. Telefone e senha devem estar preenchidos. Sem esse parâmetro, vale o login normal com senha; clientes também podem usar Google. `GET /api/login` informa `demoGestor`.
 
 No navegador, use o botão **Entrar como gestor de demonstração**. Esse acesso dá controle administrativo a qualquer pessoa com acesso à aplicação; mantenha somente na apresentação local.
 
@@ -184,10 +184,6 @@ Para sem preferência, omita `profissional`. O servidor escolhe um profissional 
 
 - GET `/api/gestao/historico`: filtros opcionais `cliente`, `unidade`, `inicio=YYYY-MM-DD`, `fim=YYYY-MM-DD`; até 500 registros por consulta. Inclui cancelados.
 - POST `/api/gestao/atendimentos/:id/concluir`: `{ adicionais: [{ nome: 'Hidratação adicional', preco: '5.00' }] }`. Apenas atendimento confirmado cujo fim já passou; soma adicionais em decimal e marca como concluído. Não permite concluir duas vezes. Cada adicional pode informar profissional responsável, conforme a seção abaixo.
-
-## Limites da integração
-
-Contrato e fluxos foram exercitados por testes HTTP com PostgreSQL real. A integração com o frontend da equipe e o teste em celular físico continuam pendentes. Google exige credenciais próprias; o cadastro atual não usa SMS. Distância em linha reta, upload de foto, atendimento avulso e responsáveis por item estão implementados nas rotas descritas neste guia. Não há paginação completa do histórico; use filtros. Existem os perfis CLIENTE e GESTOR; não há acesso separado de operador. Este projeto é para desenvolvimento e apresentação local.
 
 ## Atendimento sem agendamento e responsáveis — gestor
 

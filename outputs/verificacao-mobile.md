@@ -2,7 +2,7 @@
 
 ## O que foi conferido
 
-Verificação da demonstração EJS no Microsoft Edge do PC, com alteração do tamanho do viewport. Não foi um teste em Android/iPhone físico e não certifica o frontend que a equipe ainda vai implementar.
+Testei as telas EJS no Edge do PC simulando as larguras abaixo. Os passos para testar num Android estão mais adiante.
 
 | Tela | Larguras conferidas |
 | --- | --- |
@@ -37,7 +37,7 @@ O Android SDK/ADB foi localizado neste PC, mas nenhum aparelho apareceu conectad
 ```
 
 4. No Chrome do Android, abra `http://127.0.0.1:3001/login`. O PC deve continuar ligado com o servidor rodando. Não altere o callback Google se continuar usando exatamente esse endereço; a sessão Google do navegador do celular é independente da sessão do PC.
-5. Confira cliente, gestor, teclado, rolagem, menus, modais e foto da galeria. Para Google, o usuário faz login/consentimento no próprio aparelho. Não envie suas senhas ao Claude.
+5. Confira cliente, gestor, teclado, rolagem, menus, modais e foto da galeria. Para Google, o usuário faz login/consentimento no próprio aparelho.
 6. Ao terminar, remova o encaminhamento:
 
 ```powershell
@@ -46,7 +46,7 @@ O Android SDK/ADB foi localizado neste PC, mas nenhum aparelho apareceu conectad
 
 Se houver vários aparelhos, use `adb -s SERIAL ...` com o serial exibido por devices. Se aparecer unauthorized, desbloqueie e aceite o aviso no aparelho. Se o servidor usar 3000, substitua a porta em todos os passos.
 
-Quando o frontend definitivo estiver em outra porta (por exemplo 5173), encaminhe também essa porta e abra o frontend no celular. Configure seu proxy e o callback Google para a origem escolhida; não presuma que acessar 5173 fará o Google retornar automaticamente ao frontend. Veja a seção Google do guia para Claude. [Encaminhamento reverso documentado pelo Android](https://developer.android.com/develop/ui/views/layout/webapps/access-local-server).
+Quando o frontend definitivo estiver em outra porta (por exemplo 5173), encaminhe também essa porta e abra o frontend no celular. Configure seu proxy e o callback Google para a origem escolhida; não presuma que acessar 5173 fará o Google retornar automaticamente ao frontend. Veja a configuração do Google em `INTEGRACAO.md`. [Encaminhamento reverso documentado pelo Android](https://developer.android.com/develop/ui/views/layout/webapps/access-local-server).
 
 ## iPhone e teste por Wi-Fi
 

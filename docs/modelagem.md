@@ -541,14 +541,13 @@ Aplicar 001 somente em banco vazio; em instalações existentes, usar o configur
 
 A foto enviada fica no PostgreSQL; deve acompanhar o backup do banco. Não compartilhe backup com dados de usuários, sessões ou credenciais junto ao código. Para a equipe, entregar scripts SQL e instruções; usar pg_dump/pg_restore quando houver necessidade autorizada de transportar dados.
 
-## 8. Decisões e limites
+## 8. Regras de uso
 
 - As unidades de demonstração têm endereços e coordenadas fictícios de Salvador, identificados como fictícios. Distância é em linha reta, sem geocodificação automática, e a posição do cliente não é armazenada.
 - Profissional é um cadastro de prestador. Não há FK entre profissional e usuario; o sistema não cria acesso para barbeiros automaticamente.
 - Preços variam por oferta de unidade; habilitação do profissional por serviço é global.
 - Histórico preserva cancelados e itens; a interface consulta no máximo 500 atendimentos por filtro.
 - Mudanças diretas por SQL podem contornar regras que existem somente na aplicação. Não registrar atendimento ou reserva diretamente no banco durante o uso normal.
-- Este documento descreve a implementação acadêmica atual; não certifica implantação pública, frontend definitivo, revisão formal do professor ou aprovação da equipe.
 
 ## 9. Fontes e verificação
 

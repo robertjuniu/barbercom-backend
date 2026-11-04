@@ -2,13 +2,13 @@
 
 No ambiente Docker novo, Google começa desabilitado. Configure as variáveis `DOCKER_GOOGLE_*` em `.env.docker`, conforme `INTEGRACAO.md`. Os vínculos e credenciais da instalação Windows descrita abaixo não são copiados para containers nem enviados no pacote. O Compose usa as contas fictícias documentadas e mantém o atalho de gestor desligado.
 
-Google está configurado nesta instalação. SMS foi retirado por decisão do responsável, para não gerar custos. Não envie segredos no chat nem no Git.
+Configurei o Google no meu ambiente Windows. Tirei o SMS para evitar custo e deixei as credenciais no arquivo local.
 
 ## Situação desta instalação
 
 O projeto **BarberCom** (`barbercom`) e o cliente **BarberCom backend local** foram criados no Google Cloud. A credencial está somente na configuração local, fora do ZIP. Sua conta foi adicionada como usuário de teste. Foram cadastrados os callbacks em `127.0.0.1` nas portas 3000 e 3001; a instalação atual usa 3001.
 
-O teste real no Edge validou o gestor e, depois, o cliente. A pedido do responsável, o vínculo da conta institucional foi transferido para uma conta CLIENTE; o Google agora abre a área de cliente. O gestor usa o botão de demonstração local, com qualquer telefone e senha preenchidos. O consentimento solicitou somente nome/foto do perfil e email. A rejeição de uma segunda identidade sem vínculo ainda precisa de teste real. Foi corrigida a proteção do formulário para permitir o redirecionamento a `https://accounts.google.com` quando Google estiver configurado, mantendo os demais destinos bloqueados.
+Testei no Edge primeiro como gestor e depois como cliente. Passei o vínculo da conta institucional para uma conta CLIENTE; o Google agora abre a área de cliente. O gestor usa o botão de demonstração local, com qualquer telefone e senha preenchidos. O consentimento solicitou somente nome/foto do perfil e email. A rejeição de uma segunda identidade sem vínculo ainda precisa de teste real. Foi corrigida a proteção do formulário para permitir o redirecionamento a `https://accounts.google.com` quando Google estiver configurado, mantendo os demais destinos bloqueados.
 
 ## Google
 

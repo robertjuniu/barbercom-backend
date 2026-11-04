@@ -1,12 +1,12 @@
-# BarberCom: execução e integração
+# Como ligar o frontend do BarberCom
+
+Deixei aqui o passo a passo que usei para subir o backend e testar as contas. Para ligar o frontend, comece pelo endereço da API e pelo exemplo de login mais abaixo.
 
 ## Iniciar pelo Docker
 
 Instale o Docker Desktop e deixe o motor de containers Linux em execução. No Windows, ele usa WSL 2 e pode exigir reinício na instalação. Em Linux, use Docker Engine com Compose v2.
 
-Na pasta que contém `docker-compose.yml`:
-
-O código público está em https://github.com/robertjuniu/barbercom-backend. Baixe o ZIP do GitHub e extraia ou use `git clone https://github.com/robertjuniu/barbercom-backend.git` e entre na pasta criada.
+Baixe o ZIP do GitHub e extraia ou use `git clone https://github.com/robertjuniu/barbercom-backend.git`. Abra o terminal na pasta que contém `docker-compose.yml`.
 
 ```sh
 docker compose up --build -d
@@ -28,7 +28,7 @@ O PostgreSQL fica acessível apenas na rede interna do Compose. O backend é pub
 
 ## Contas e dados iniciais
 
-Estas contas são fictícias e suas senhas são públicas para testes locais:
+Deixei duas contas fictícias para a gente testar no próprio computador.
 
 | Perfil | Telefone | Senha |
 | --- | --- | --- |
@@ -140,7 +140,7 @@ const { unidades } = await api('/unidades');
 
 O [contrato detalhado](outputs/integracao-frontend.md) contém os campos, parâmetros, formatos e exemplos de cada operação. IDs e preços são strings. O backend calcula o total; o frontend não deve decidir o preço da reserva. Erros retornam `{ erro }` e status HTTP. Respeite 401 (precisa entrar), 403 (sem permissão/CSRF), 409 (conflito), 413 (foto grande) e 429 (limite de tentativas).
 
-Hoje existem os perfis CLIENTE e GESTOR. Operador aparece nos requisitos, mas não tem login/permissões separados nesta implementação. SMS foi retirado do fluxo. Distância é em linha reta e as unidades são fictícias. A equipe precisa concluir a integração visual conforme o Figma e testar em celular físico.
+Implementei o login de cliente e gestor. O cadastro usa telefone e senha e segue direto para o login, sem etapa de SMS. As unidades de teste são fictícias e a distância é calculada em linha reta.
 
 ## Testes e apresentação
 

@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $taskRoot
-$taskItems = @('src','database','docs','scripts','test','views','public','package.json','package-lock.json','README.md','.env.example','.gitignore','outputs/integracao-frontend.md','outputs/configurar-google-e-sms.md','outputs/relatorio-entrega.md','outputs/GUIA_PARA_CLAUDE_FRONTEND.md','outputs/verificacao-mobile.md','outputs/SP07-modelagem-banco.pdf','outputs/SP07-modelagem-banco.md','outputs/SP07-diagrama-banco.mmd')
+$taskItems = @('src','database','docs','scripts','test','views','public','package.json','package-lock.json','README.md','.env.example','.gitignore','outputs/integracao-frontend.md','outputs/configurar-google-e-sms.md','outputs/relatorio-entrega.md','outputs/frontend-figma.md','outputs/verificacao-mobile.md','outputs/SP07-modelagem-banco.pdf','outputs/SP07-modelagem-banco.md','outputs/SP07-diagrama-banco.mmd')
 $taskOutput = Join-Path $taskRoot 'outputs\BarberCom-backend.zip'
 $taskItems += @('docker','Dockerfile','docker-compose.yml','.dockerignore','.gitattributes','.env.docker.example','INTEGRACAO.md')
 Add-Type -AssemblyName System.IO.Compression.FileSystem
