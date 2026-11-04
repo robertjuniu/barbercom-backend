@@ -1,0 +1,26 @@
+<!doctype html><html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Horários · BarberCom</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main class="phone management schedule">
+<header><form action="/sair" method="post" class="logout"><input type="hidden" name="_csrf" value="<%= csrf %>"><button aria-label="Sair da conta">↪</button></form><img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141"><h1>Gerenciamento de horários</h1></header>
+<% if (aviso) { %><p class="success" role="status"><%= aviso %></p><% } %>
+<% if (erro) { %><p class="error" role="alert"><%= erro %></p><% } %>
+<section class="schedule-panel"><form method="get" action="/horarios"><label for="vinculo">Unidade e profissional</label><select id="vinculo" name="vinculo" required><% for (const v of vinculos) { %><option value="<%= v.id %>" <%= selected?.id === v.id ? 'selected' : '' %>><%= v.unidade %> · <%= v.profissional %></option><% } %></select><button class="secondary">Consultar horários</button></form></section>
+<% if (!selected) { %><p class="empty">Cadastre um profissional ativo com vínculo a uma unidade ativa para gerenciar os horários.</p><% } else { %>
+<% for (const tipo of ['turno','pausa','bloqueio']) { %>
+<section class="schedule-panel"><h2><%= {turno:'Turnos de trabalho',pausa:'Pausas',bloqueio:'Feriados e indisponibilidades'}[tipo] %></h2>
+<ul class="schedule-list">
+<% if (tipo === 'turno') { for (const t of turnos) { %><li><strong><%= dias[t.dia_semana - 1] %></strong> · <%= t.hora_inicio.slice(0,5) %> às <%= t.hora_fim.slice(0,5) %></li><% } } %>
+<% if (tipo === 'pausa') { for (const p of pausas) { %><li><strong><%= p.descricao %></strong><br><%= dias[p.dia_semana - 1] %> · <%= p.hora_inicio.slice(0,5) %> às <%= p.hora_fim.slice(0,5) %></li><% } } %>
+<% if (tipo === 'bloqueio') { for (const b of bloqueios) { %><li><strong><%= b.descricao %></strong><br><%= b.data_label %> · <%= b.hora_inicio ? b.hora_inicio.slice(0,5) + ' às ' + b.hora_fim.slice(0,5) : 'Dia inteiro' %> · <%= b.tipo === 'FERIADO' ? 'Feriado' : 'Indisponibilidade' %></li><% } } %>
+</ul>
+<% if (!(tipo === 'turno' ? turnos : tipo === 'pausa' ? pausas : bloqueios).length) { %><p class="help">Nenhum registro cadastrado.</p><% } %>
+<details <%= valores.tipo === tipo ? 'open' : '' %>><summary>＋ Adicionar <%= tipo === 'turno' ? 'turno' : tipo === 'pausa' ? 'pausa' : 'bloqueio' %></summary>
+<form method="post" action="/horarios" class="schedule-form"><input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="vinculo" value="<%= selected.id %>"><input type="hidden" name="tipo" value="<%= tipo %>">
+<% if (tipo === 'turno') { %><fieldset><legend>Dias da semana</legend><div class="weekdays"><% for (let d=1;d<=7;d++) { %><label><input type="checkbox" name="dias" value="<%= d %>" <%= valores.tipo === tipo && [valores.dias].flat().includes(String(d)) ? 'checked' : '' %>><span><%= dias[d-1] %></span></label><% } %></div></fieldset><% } %>
+<% if (tipo === 'pausa') { %><label for="turno-pausa">Turno</label><select id="turno-pausa" name="turno" required><option value="">Selecione</option><% for (const t of turnos) { %><option value="<%= t.id %>" <%= valores.turno === t.id ? 'selected' : '' %>><%= dias[t.dia_semana-1] %> · <%= t.hora_inicio.slice(0,5) %> às <%= t.hora_fim.slice(0,5) %></option><% } %></select><% } %>
+<% if (tipo !== 'turno') { %><label for="descricao-<%= tipo %>">Descrição</label><input id="descricao-<%= tipo %>" name="descricao" required maxlength="120" value="<%= valores.tipo === tipo ? valores.descricao ?? '' : '' %>"><% } %>
+<% if (tipo === 'bloqueio') { %><label for="data">Data</label><input id="data" type="date" name="data" required value="<%= valores.tipo === tipo ? valores.data ?? '' : '' %>"><label for="motivo">Tipo</label><select id="motivo" name="motivo"><option value="FERIADO">Feriado</option><option value="INDISPONIBILIDADE" <%= valores.motivo === 'INDISPONIBILIDADE' ? 'selected' : '' %>>Indisponibilidade</option></select><label class="choice"><input type="checkbox" name="dia_inteiro" value="true" data-full-day <%= valores.dia_inteiro === 'true' ? 'checked' : '' %>><span>Dia inteiro</span></label><% } %>
+<div class="offer-values" data-time-fields><label>Início<input type="time" name="inicio" required value="<%= valores.tipo === tipo ? valores.inicio ?? '' : '' %>"></label><label>Fim<input type="time" name="fim" required value="<%= valores.tipo === tipo ? valores.fim ?? '' : '' %>"></label></div><button class="primary">Salvar <%= tipo %></button>
+</form></details></section>
+<% } } %><%- include('partials/nav', { pagina: 'horarios' }) %>
+</main></body></html>

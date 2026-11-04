@@ -1,0 +1,25 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Histórico · BarberCom</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="phone login">
+  <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+  <h1>Histórico de atendimentos</h1>
+  <a class="secondary" href="/unidades">Voltar à gestão</a>
+  <details><summary>Registrar atendimento sem agendamento</summary>
+    <form method="post" action="/gestao/atendimentos/avulso" class="login-form">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label for="cliente">Cliente</label><select id="cliente" name="cliente" required><option value="">Selecione</option><% for (const c of clientes) { %><option value="<%= c.id %>"><%= c.nome %></option><% } %></select>
+      <label for="unidade">Unidade</label><select id="unidade" name="unidade" required><option value="">Selecione</option><% for (const u of unidades) { %><option value="<%= u.id %>"><%= u.nome %></option><% } %></select>
+      <label for="profissional">Profissional</label><select id="profissional" name="profissional" required><option value="">Selecione</option><% for (const p of profissionais) { %><option value="<%= p.id %>"><%= p.nome %></option><% } %></select>
+      <label for="inicio">Início do atendimento realizado</label><input id="inicio" name="inicio" type="datetime-local" step="60" required>
+      <fieldset><legend>Serviços realizados</legend><% for (const s of servicos) { %><label class="choice"><input type="checkbox" name="servicos" value="<%= s.id %>"><%= s.nome %></label><% } %></fieldset>
+      <p class="help">Preços e duração vêm do cadastro da unidade. O atendimento precisa ter terminado. Horário de Salvador/Bahia.</p>
+      <label for="extra_nome">Adicional (opcional)</label><input id="extra_nome" name="extra_nome" maxlength="120">
+      <label for="extra_preco">Preço do adicional</label><input id="extra_preco" name="extra_preco" type="number" min="0" max="999999.99" step="0.01" placeholder="5.00">
+      <label for="extra_profissional">Responsável pelo adicional</label><select id="extra_profissional" name="extra_profissional"><option value="">Mesmo profissional</option><% for (const p of profissionais) { %><option value="<%= p.id %>"><%= p.nome %></option><% } %></select>
+      <button class="primary">Registrar atendimento</button>
+    </form>
+  </details>
+  <% if (!atendimentos.length) { %><p>Nenhum atendimento no período.</p><% } %>
+  <% for (const a of atendimentos) { %><article class="unit-card"><h2><%= a.cliente %></h2><p><%= a.inicio.replace('T',' às ') %> · <%= a.unidade %></p><p><%= a.origem === 'AVULSO' ? 'Sem agendamento' : 'Agendado' %> · <%= a.status %></p>
+    <% for (const i of a.itens) { %><p><%= i.nome %> · R$ <%= i.preco.replace('.',',') %> · <%= i.responsavel ?? a.profissional %></p><% } %>
+    <strong>Total: R$ <%= a.valor_total.replace('.',',') %></strong></article><% } %>
+</main></body></html>

@@ -1,0 +1,61 @@
+name: barbercom
+services:
+  db:
+    image: postgres:18-bookworm
+    environment:
+      POSTGRES_DB: barbercom
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DOCKER_OWNER_PASSWORD:-BancoLocalDemo2026}
+      APP_DB_PASSWORD: ${DOCKER_DB_PASSWORD:-AplicacaoLocalDemo2026}
+      TZ: America/Bahia
+    volumes:
+      - banco:/var/lib/postgresql
+      - ./docker/iniciar-banco.sh:/docker-entrypoint-initdb.d/00-barbercom.sh:ro
+      - ./database:/opt/barbercom-sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d barbercom"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  backend:
+    build: .
+    image: barbercom-backend:local
+    init: true
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGDATABASE: barbercom
+      PGUSER: barbercom_app
+      PGPASSWORD: ${DOCKER_DB_PASSWORD:-AplicacaoLocalDemo2026}
+      HOST: 0.0.0.0
+      PORT: "3000"
+      NODE_ENV: development
+      TZ: America/Bahia
+      FRONTEND_ORIGIN: ${DOCKER_FRONTEND_ORIGIN:-http://127.0.0.1:5173}
+      DEMO_GESTOR: "false"
+      ALLOW_ANY_PASSWORD: "false"
+      ADMIN_PHONE: "71999990000"
+      ADMIN_PASSWORD: ${DOCKER_ADMIN_PASSWORD:-GestorDemo@2026}
+      CLIENT_PHONE: "71999990001"
+      CLIENT_PASSWORD: ${DOCKER_CLIENT_PASSWORD:-ClienteDemo@2026}
+      GOOGLE_CLIENT_ID: ${DOCKER_GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${DOCKER_GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${DOCKER_GOOGLE_REDIRECT_URI:-}
+    ports:
+      - "127.0.0.1:${DOCKER_BACKEND_PORT:-3000}:3000"
+    volumes:
+      - sessao:/app/work
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/login').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    restart: unless-stopped
+volumes:
+  banco:
+  sessao:

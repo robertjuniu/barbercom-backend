@@ -1,0 +1,5 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Conta · BarberCom</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="phone message"><img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141"><h1>Vincular Google</h1>
+<p>Confirme a senha original desta conta. Depois você poderá escolher sua conta Google e usá-la para entrar.</p>
+<% if (googleEnabled) { %><form action="/auth/google/vincular" method="post"><input type="hidden" name="_csrf" value="<%= csrf %>"><label for="senha">Senha original</label><input id="senha" name="senha" type="password" required maxlength="256" autocomplete="current-password"><button class="primary">Vincular minha conta Google</button></form><% } else { %><p class="error">Configure primeiro as credenciais OAuth conforme o guia de integração.</p><% } %>
+<p><a class="secondary" href="<%= voltar %>">Voltar</a></p></main></body></html>

@@ -1,0 +1,8 @@
+    <nav class="bottom-nav" aria-label="Menu de gestão">
+      <a href="/unidades" class="<%= pagina === 'unidades' ? 'current' : '' %>" <%- pagina === 'unidades' ? 'aria-current="page"' : '' %> aria-label="Unidades" title="Unidades"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V7h5V3h6v4h5v14M9 21V7m6 14V7M7 10h1m8 0h1M7 14h1m8 0h1M10 21v-4h4v4"/></svg></a>
+      <a href="/profissionais" class="<%= pagina === 'profissionais' ? 'current' : '' %>" aria-label="Profissionais" title="Profissionais" <%- pagina === 'profissionais' ? 'aria-current="page"' : '' %>><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4M17 4a3 3 0 0 1 0 6m2 11v-4a6 6 0 0 0-2-4"/></svg></a>
+      <a href="/horarios" class="<%= pagina === 'horarios' ? 'current' : '' %>" aria-label="Horários" title="Horários" <%- pagina === 'horarios' ? 'aria-current="page"' : '' %>><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v15H4zM8 2v6m8-6v6M4 10h16"/><circle cx="15" cy="16" r="4"/><path d="M15 13v3l2 1"/></svg></a>
+      <a href="/servicos" class="<%= pagina === 'servicos' ? 'current' : '' %>" aria-label="Serviços" title="Serviços" <%- pagina === 'servicos' ? 'aria-current="page"' : '' %>><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="m8 8 13 13M8 16 21 3"/></svg></a>
+      <a href="/gestao/historico" aria-label="Histórico" title="Histórico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 1 8M3 3v7h7m2-5v7l4 2"/></svg></a>
+    </nav>
+    <p class="action-toast" data-action-status role="status" aria-live="polite" hidden></p>

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Minha conta · BarberCom</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="phone login">
+  <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+  <h1>Olá, <%= clienteNome %></h1>
+  <p>Área do cliente</p>
+  <p><a class="secondary" href="/conta">Vincular minha conta Google</a></p>
+  <h2>Meus agendamentos</h2>
+  <% if (!agendamentos.length) { %><p>Você ainda não tem agendamentos.</p><% } %>
+  <% for (const item of agendamentos) { %>
+    <article><h3><%= item.unidade %></h3><p><%= item.inicio.replace('T', ' às ') %></p><p><%= item.profissional %> · <%= item.status %></p><p>R$ <%= item.valor_total.replace('.', ',') %></p></article>
+  <% } %>
+  <form action="/sair" method="post"><input type="hidden" name="_csrf" value="<%= csrf %>"><button class="secondary">Sair da conta</button></form>
+</main></body></html>

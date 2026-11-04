@@ -1,0 +1,124 @@
+erDiagram
+    USUARIO {
+        bigint id PK
+        varchar nome
+        varchar telefone
+        varchar senha_hash
+        varchar perfil
+        boolean ativo
+        varchar google_sub
+    }
+    SESSAO {
+        varchar sid PK
+        jsonb dados
+        timestamptz expira_em
+    }
+    VERIFICACAO_TELEFONE {
+        varchar telefone PK
+        varchar nome
+        varchar senha_hash
+        varchar codigo_hash
+        timestamptz expira_em
+        integer tentativas
+        timestamptz enviado_em
+    }
+    UNIDADE {
+        bigint id PK
+        varchar nome
+        varchar endereco
+        boolean ativa
+        float latitude
+        float longitude
+    }
+    PROFISSIONAL {
+        bigint id PK
+        varchar nome
+        varchar foto_url
+        boolean ativo
+    }
+    FOTO_PROFISSIONAL {
+        bigint profissional_id FK, PK
+        bytea dados
+    }
+    SERVICO {
+        bigint id PK
+        varchar nome
+        boolean ativo
+    }
+    OFERTA_SERVICO {
+        bigint id PK
+        bigint unidade_id FK
+        bigint servico_id FK
+        numeric preco
+        integer duracao_minutos
+        boolean ativa
+    }
+    PROFISSIONAL_SERVICO {
+        bigint profissional_id FK, PK
+        bigint servico_id FK, PK
+    }
+    VINCULO_PROFISSIONAL_UNIDADE {
+        bigint id PK
+        bigint profissional_id FK
+        bigint unidade_id FK
+        boolean ativo
+    }
+    TURNO_TRABALHO {
+        bigint id PK
+        bigint vinculo_id FK
+        smallint dia_semana
+        time hora_inicio
+        time hora_fim
+    }
+    PAUSA_TRABALHO {
+        bigint id PK
+        bigint turno_id FK
+        varchar descricao
+        time hora_inicio
+        time hora_fim
+    }
+    BLOQUEIO_AGENDA {
+        bigint id PK
+        bigint vinculo_id FK
+        date data
+        varchar descricao
+        varchar tipo
+        time hora_inicio
+        time hora_fim
+    }
+    AGENDAMENTO {
+        bigint id PK
+        bigint cliente_id FK
+        bigint vinculo_id FK
+        timestamp inicio
+        timestamp fim
+        varchar status
+        numeric valor_total
+        timestamptz criado_em
+        varchar origem
+    }
+    ITEM_AGENDAMENTO {
+        bigint id PK
+        bigint agendamento_id FK
+        bigint oferta_id FK
+        varchar nome
+        numeric preco
+        integer duracao_minutos
+        varchar tipo
+        bigint profissional_id FK
+    }
+    PROFISSIONAL ||--o| FOTO_PROFISSIONAL : profissional_id
+    SERVICO ||--o{ OFERTA_SERVICO : servico_id
+    UNIDADE ||--o{ OFERTA_SERVICO : unidade_id
+    PROFISSIONAL ||--o{ PROFISSIONAL_SERVICO : profissional_id
+    SERVICO ||--o{ PROFISSIONAL_SERVICO : servico_id
+    PROFISSIONAL ||--o{ VINCULO_PROFISSIONAL_UNIDADE : profissional_id
+    UNIDADE ||--o{ VINCULO_PROFISSIONAL_UNIDADE : unidade_id
+    VINCULO_PROFISSIONAL_UNIDADE ||--o{ TURNO_TRABALHO : vinculo_id
+    TURNO_TRABALHO ||--o{ PAUSA_TRABALHO : turno_id
+    VINCULO_PROFISSIONAL_UNIDADE ||--o{ BLOQUEIO_AGENDA : vinculo_id
+    USUARIO ||--o{ AGENDAMENTO : cliente_id
+    VINCULO_PROFISSIONAL_UNIDADE ||--o{ AGENDAMENTO : vinculo_id
+    AGENDAMENTO ||--o{ ITEM_AGENDAMENTO : agendamento_id
+    OFERTA_SERVICO |o--o{ ITEM_AGENDAMENTO : oferta_id
+    PROFISSIONAL |o--o{ ITEM_AGENDAMENTO : profissional_id

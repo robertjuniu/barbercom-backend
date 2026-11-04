@@ -1,0 +1,23 @@
+[
+  {
+    "nome": "Unidade Campo da Pólvora",
+    "endereco": "Av. Joana Angélica, s/n — Nazaré, Salvador/BA (barbearia fictícia)",
+    "latitude": -12.9805,
+    "longitude": -38.5085,
+    "ativa": false
+  },
+  {
+    "nome": "Unidade Barra",
+    "endereco": "Av. Oceânica, s/n — Barra, Salvador/BA (barbearia fictícia)",
+    "latitude": -13.0095,
+    "longitude": -38.5305,
+    "ativa": true
+  },
+  {
+    "nome": "Unidade Federação",
+    "endereco": "Rua Caetano Moura, s/n — Federação, Salvador/BA (barbearia fictícia)",
+    "latitude": -13.0005,
+    "longitude": -38.5055,
+    "ativa": true
+  }
+]

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unidades · BarberCom</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="phone management">
+    <header>
+      <form action="/sair" method="post" class="logout"><input type="hidden" name="_csrf" value="<%= csrf %>"><button aria-label="Sair da conta" title="Sair da conta">↪</button></form>
+      <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+      <h1>Gerenciamento de unidades</h1>
+      <a class="primary add" href="/unidades/nova"><span aria-hidden="true">＋</span> Nova unidade</a>
+    </header>
+    <% if (aviso) { %><p class="success" role="status"><%= aviso %></p><% } %>
+    <section class="cards" aria-label="Unidades cadastradas">
+      <% if (!unidades.length) { %><p class="empty">Nenhuma unidade cadastrada. Clique em “Nova unidade” para começar.</p><% } %>
+      <% for (const unidade of unidades) { %>
+        <article class="unit-card">
+          <div class="card-title"><h2><%= unidade.nome %></h2><span class="badge <%= unidade.ativa ? 'active' : 'inactive' %>">● <%= unidade.ativa ? 'Ativa' : 'Inativa' %></span></div>
+          <p class="address"><%= unidade.endereco %></p>
+          <div class="card-actions">
+            <a class="secondary" href="/unidades/<%= unidade.id %>/editar"><span aria-hidden="true">✎</span> Editar</a>
+            <form method="post" action="/unidades/<%= unidade.id %>/situacao" data-toggle-form data-active-label="Ativa" data-inactive-label="Inativa">
+              <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="ativa" value="<%= !unidade.ativa %>">
+              <button class="<%= unidade.ativa ? 'danger' : 'reactivate' %>" aria-pressed="<%= unidade.ativa %>" aria-label="<%= unidade.ativa ? 'Inativar' : 'Reativar' %> <%= unidade.nome %>"><span class="toggle-track" aria-hidden="true"><span></span></span><span data-toggle-label><%= unidade.ativa ? 'Inativar' : 'Reativar' %></span></button>
+            </form>
+          </div>
+        </article>
+      <% } %>
+    </section>
+    <%- include('partials/nav', { pagina: 'unidades' }) %>
+  </main>
+  <% if (form) { %>
+    <dialog aria-labelledby="form-title" data-dialog-return="/unidades">
+      <div class="dialog-title"><h2 id="form-title"><%= form.id ? 'Editar unidade' : 'Nova unidade' %></h2><a class="close" href="/unidades" aria-label="Fechar formulário">×</a></div>
+      <form method="post" action="<%= form.id ? '/unidades/' + form.id : '/unidades' %>">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <label for="nome">Nome</label><input id="nome" name="nome" required maxlength="120" value="<%= form.nome %>" autofocus>
+        <label for="endereco">Endereço</label><input id="endereco" name="endereco" required maxlength="255" value="<%= form.endereco %>">
+        <label for="latitude">Latitude (opcional)</label><input id="latitude" name="latitude" type="number" step="any" min="-90" max="90" value="<%= form.latitude ?? '' %>">
+        <label for="longitude">Longitude (opcional)</label><input id="longitude" name="longitude" type="number" step="any" min="-180" max="180" value="<%= form.longitude ?? '' %>">
+        <p class="help">Informe as duas coordenadas para ordenar por distância.</p>
+        <fieldset><legend>Situação</legend><div class="segments">
+          <label><input type="radio" name="ativa" value="true" <%= form.ativa ? 'checked' : '' %>> <span>Ativa</span></label>
+          <label><input type="radio" name="ativa" value="false" <%= !form.ativa ? 'checked' : '' %>> <span>Inativa</span></label>
+        </div></fieldset>
+        <% if (erro) { %><p class="error" role="alert"><%= erro %></p><% } %>
+        <div class="dialog-actions"><a class="secondary" href="/unidades">Cancelar</a><button class="primary">Salvar</button></div>
+      </form>
+    </dialog>
+  <% } %>
+</body>
+</html>

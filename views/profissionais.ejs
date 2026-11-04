@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Profissionais · BarberCom</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<main class="phone management">
+  <header>
+    <form action="/sair" method="post" class="logout"><input type="hidden" name="_csrf" value="<%= csrf %>"><button aria-label="Sair da conta" title="Sair da conta">↪</button></form>
+    <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+    <h1>Gerenciamento de profissionais</h1>
+    <a class="primary add" href="/profissionais/novo">＋ Novo profissional</a>
+  </header>
+  <% if (aviso) { %><p class="success" role="status"><%= aviso %></p><% } %>
+  <section class="cards" aria-label="Profissionais cadastrados">
+    <% if (!profissionais.length) { %><p class="empty">Nenhum profissional cadastrado. Cadastre serviços e unidades antes de adicionar o primeiro.</p><% } %>
+    <% for (const profissional of profissionais) { %>
+      <article class="unit-card professional-card">
+        <div class="card-title">
+          <span class="avatar" aria-hidden="true"><span><%= profissional.nome.split(/\s+/).slice(0, 2).map(p => p[0]).join('') %></span><% if (profissional.foto_url) { %><img src="<%= profissional.foto_url %>" alt="" loading="lazy" referrerpolicy="no-referrer"><% } %></span>
+          <h2><%= profissional.nome %></h2><span class="badge <%= profissional.ativo ? 'active' : 'inactive' %>">● <%= profissional.ativo ? 'Ativo' : 'Inativo' %></span>
+        </div>
+        <p class="address"><%= profissional.unidades.join(', ') %></p>
+        <div class="tags"><% for (const servico of profissional.servicos) { %><span><%= servico %></span><% } %></div>
+        <div class="card-actions">
+          <a class="secondary" href="/profissionais/<%= profissional.id %>/editar">✎ Editar</a>
+          <form method="post" action="/profissionais/<%= profissional.id %>/situacao" data-toggle-form data-active-label="Ativo" data-inactive-label="Inativo">
+            <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="ativo" value="<%= !profissional.ativo %>">
+            <button class="<%= profissional.ativo ? 'danger' : 'reactivate' %>" aria-pressed="<%= profissional.ativo %>" aria-label="<%= profissional.ativo ? 'Inativar' : 'Reativar' %> <%= profissional.nome %>"><span class="toggle-track" aria-hidden="true"><span></span></span><span data-toggle-label><%= profissional.ativo ? 'Inativar' : 'Reativar' %></span></button>
+          </form>
+        </div>
+      </article>
+    <% } %>
+  </section>
+  <%- include('partials/nav', { pagina: 'profissionais' }) %>
+</main>
+<% if (form) { %>
+  <dialog aria-labelledby="form-title" data-dialog-return="/profissionais">
+    <div class="dialog-title"><h2 id="form-title"><%= form.id ? 'Editar profissional' : 'Novo profissional' %></h2><a class="close" href="/profissionais" aria-label="Fechar formulário">×</a></div>
+    <form method="post" action="<%= form.id ? '/profissionais/' + form.id : '/profissionais' %>">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label for="nome">Nome</label><input id="nome" name="nome" required maxlength="120" value="<%= form.nome %>" autofocus>
+      <label for="foto_url">Foto — endereço HTTPS (opcional)</label><input id="foto_url" name="foto_url" type="text" maxlength="500" placeholder="https://exemplo.com/foto.jpg" value="<%= form.foto_url ?? '' %>">
+      <fieldset class="choices"><legend>Unidades de atuação</legend>
+        <% if (!unidades.length) { %><p class="help">Cadastre uma <a href="/unidades/nova">unidade</a> primeiro.</p><% } %>
+        <% for (const unidade of unidades) { const selected = form.unidades.includes(unidade.id); %>
+          <label class="choice"><input type="checkbox" name="unidades" value="<%= unidade.id %>" <%= selected ? 'checked' : '' %> <%= !unidade.ativa && !selected ? 'disabled' : '' %>><span><%= unidade.nome %><%= unidade.ativa ? '' : ' (inativa)' %></span></label>
+        <% } %>
+      </fieldset>
+      <fieldset class="choices"><legend>Serviços realizados</legend>
+        <% if (!servicos.length) { %><p class="help">Cadastre um <a href="/servicos/novo">serviço</a> primeiro.</p><% } %>
+        <% for (const servico of servicos) { const selected = form.servicos.includes(servico.id); %>
+          <label class="choice"><input type="checkbox" name="servicos" value="<%= servico.id %>" <%= selected ? 'checked' : '' %> <%= !servico.ativo && !selected ? 'disabled' : '' %>><span><%= servico.nome %><%= servico.ativo ? '' : ' (inativo)' %></span></label>
+        <% } %>
+      </fieldset>
+      <%- include('partials/situacao', { ativo: form.ativo }) %>
+      <% if (erro) { %><p class="error" role="alert"><%= erro %></p><% } %>
+      <div class="dialog-actions"><a class="secondary" href="/profissionais">Cancelar</a><button class="primary">Salvar</button></div>
+    </form>
+    <% if (form.id) { %><form data-photo-form action="/api/profissionais/<%= form.id %>/foto">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label for="foto">Enviar foto JPEG ou PNG (até 2 MB)</label><input id="foto" type="file" accept="image/jpeg,image/png" required>
+      <button class="secondary">Enviar foto</button><p role="status" data-photo-status></p>
+    </form><% } else { %><p class="help">Salve o profissional para enviar uma foto do computador.</p><% } %>
+  </dialog>
+<% } %>
+</body></html>

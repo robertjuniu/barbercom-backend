@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Criar conta · BarberCom</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="phone login">
+  <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+  <h1>Criar conta de cliente</h1>
+  <form action="/cadastro" method="post" class="login-form">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <label for="nome">Nome</label><input id="nome" name="nome" required maxlength="120" autocomplete="name">
+    <label for="telefone">Telefone com DDD</label><input id="telefone" name="telefone" type="tel" required pattern="[0-9]{10,11}" maxlength="11" placeholder="71912345678" autocomplete="tel-national">
+    <label for="senha">Senha (mínimo 12 caracteres)</label><input id="senha" name="senha" type="password" required minlength="12" maxlength="256" autocomplete="new-password">
+    <% if (erro) { %><p class="error" role="alert"><%= erro %></p><% } %>
+    <button class="primary">Criar minha conta</button>
+  </form>
+  <p class="help">O telefone é usado para entrar. Não enviamos SMS nem verificamos a posse do número.</p>
+  <p><a class="secondary" href="/login">Já tenho conta</a></p>
+</main></body></html>

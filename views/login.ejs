@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar · BarberCom</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="phone login">
+    <img class="logo" src="/logo.png" alt="BarberCom" width="150" height="141">
+    <% if (allowAnyPassword) { %><p class="success" role="status">Modo de teste local: use o telefone da conta e qualquer senha preenchida.</p><% } %>
+    <form method="post" action="/login" class="login-form">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <label for="telefone">Telefone</label>
+      <input id="telefone" name="telefone" type="tel" placeholder="(71) 9 1234-5678" autocomplete="username" required maxlength="25" value="<%= telefone %>">
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" required maxlength="256">
+      <% if (erro) { %><p class="error" role="alert"><%= erro %></p><% } %>
+      <button class="primary login-button">Entrar</button>
+      <% if (demoGestor) { %><p class="help">Apresentação local: o acesso abaixo aceita qualquer telefone e senha preenchidos.</p><button class="secondary" name="acesso" value="gestor-demo">Entrar como gestor de demonstração</button><% } %>
+    </form>
+    <div class="separator"><span>OU</span></div>
+    <% if (googleEnabled) { %><a class="google" href="/auth/google"><span aria-hidden="true">G</span> Entrar com Google</a><% } else { %><button class="google" disabled title="Configure as credenciais conforme o guia Google"><span aria-hidden="true">G</span> Entrar com Google</button><% } %>
+    <p class="help"><a href="/cadastro">Criar conta de cliente</a></p>
+    <p class="help">Clientes e gestores entram com telefone e senha.<% if (!googleEnabled) { %><br>Google aguarda configuração das credenciais.<% } %></p>
+  </main>
+</body>
+</html>
