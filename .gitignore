@@ -7,7 +7,6 @@ outputs/acesso-local.txt
 .env.*
 !.env.example
 !.env.docker.example
-.codex-remote-attachments/
 outputs/*.png
 outputs/*.zip
 *.log
