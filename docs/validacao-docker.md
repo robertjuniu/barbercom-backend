@@ -12,4 +12,6 @@ Após reiniciar banco e backend, a sessão de gestor continuou válida. O banco 
 
 O volume de banco e o volume do segredo de sessão são independentes da instalação anterior do Windows. A publicação foi conferida para excluir credenciais locais, dados do banco, capturas de contas e anexos recebidos no chat.
 
+Uma cópia nova foi clonada do repositório público e iniciada em outro projeto Compose, com volumes vazios e porta 3002. O build e a inicialização também funcionaram nessa cópia, sem usar o `.env` ou o banco locais anteriores.
+
 Ainda precisam ser testados o frontend definitivo da equipe, o fluxo Google com credenciais próprias deste ambiente, celular físico e execução no notebook que será usado na apresentação. Este teste foi neste PC; não comprova funcionamento em qualquer máquina ou implantação pública.
